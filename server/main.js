@@ -10,5 +10,8 @@ Meteor.methods({
                 lastCounter[this.connection.id] === pingCounter ? ' DUP!' : '',
                );
     lastCounter[this.connection.id] = pingCounter;
+  },
+  getLastPingCounter: function() {
+    return lastCounter[this.connection.id];
   }
 });
