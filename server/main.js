@@ -13,7 +13,7 @@ Meteor.methods({
     var callToTimeMapClearedUsingOnResultReceived = new Map(JSON.parse(callToTimeMapClearedUsingOnResultReceivedJSON));
     console.log('\n call #' + callNumber);
     logNotAcked(callToTimeMapClearedUsingCallback, 'callback');
-    logNotAcked(callToTimeMapClearedUsingCallback, 'onResultReceived');
+    logNotAcked(callToTimeMapClearedUsingOnResultReceived, 'onResultReceived');
     return callNumber;
   }
 });
