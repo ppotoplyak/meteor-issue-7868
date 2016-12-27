@@ -17,3 +17,10 @@ Meteor.methods({
     return callNumber;
   }
 });
+
+Meteor.onConnection(function(conn) {
+  conn.onClose(function() {
+    console.log(conn.clientAddress + ' ->onClose');
+  });
+  console.log(conn.clientAddress + ' ->onConnection');
+});
