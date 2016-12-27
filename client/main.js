@@ -1,10 +1,15 @@
 var callNumber = 0;
-var callToTimeMap = new Map();
+var callToTimeMapClearedUsingCallback = new Map();
+var callToTimeMapClearedUsingOnResultReceived = new Map();
 
 setInterval(function() {
-  callToTimeMap.set(callNumber, Date.now());
-  Meteor.call('showOutstandingCallbacks', JSON.stringify([...callToTimeMap]), callNumber, function(err, ackedCallNumber) {
-    callToTimeMap.delete(ackedCallNumber);
-  });
+  callToTimeMapClearedUsingCallback.set(callNumber, Date.now());
+  callToTimeMapClearedUsingOnResultReceived.set(callNumber, Date.now());
+  Meteor.apply('logOutstandingCallbacks', [JSON.stringify([...callToTimeMapClearedUsingCallback]), JSON.stringify([...callToTimeMapClearedUsingOnResultReceived]), callNumber], {
+    onResultReceived:  function(err, ackedCallNumber) {
+      callToTimeMapClearedUsingOnResultReceived.delete(ackedCallNumber);
+    }}, function(err, ackedCallNumber) {
+      callToTimeMapClearedUsingCallback.delete(ackedCallNumber);
+    });
   callNumber = callNumber + 1;
-}, 1000);
+}, 250);
